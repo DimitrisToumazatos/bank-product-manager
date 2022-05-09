@@ -1,3 +1,3 @@
-## Bank Products Manager
+# Bank Products Manager
 
-# Created by: Alexios Papadopoulos
+## Created by: Alexios Papadopoulos, Dimitrios Fotogiannopoulos
