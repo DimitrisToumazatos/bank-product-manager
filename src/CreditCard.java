@@ -1,4 +1,3 @@
-
 class CreditCard extends Product{
 	private double commission;
 	private double moveLimit;

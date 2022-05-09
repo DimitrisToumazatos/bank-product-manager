@@ -1,4 +1,4 @@
-Class ProductSale {
+class ProductSale {
     private String sellerID;
     private String productID;
     private String reason;

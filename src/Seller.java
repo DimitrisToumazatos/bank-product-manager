@@ -1,4 +1,4 @@
-Class Seller {
+class Seller {
 
     private String ID;
     private String firstName;
@@ -17,6 +17,6 @@ Class Seller {
     }
     
     public String toString() {
-        return "ID Number: "+this.ID+"\nLast Name: "+this.lastName+"\nFirst Name: "+this.firstName;
+        return "ID Number: " + this.ID + "\nLast Name: " + this.lastName + "\nFirst Name: " + this.firstName;
     }
 }
