@@ -1,22 +1,18 @@
-class ProductSale {
+class ProductSale extends SellerAction {
     private String sellerID;
     private String productID;
-    private String reason;
+    
     ProductSale(String sellerID,String productID,String reason){
+    	super(reason);
         this.sellerID=sellerID;
         this.productID=productID;
-        this.reason=reason;
-
     }
+    
     String getSellerID(){
-        return this.sellerID;
+        return sellerID;
     }
+    
     String getProductID(){
-        return this.productID;
+        return productID;
     }
-    String getReason(){
-        return this.reason;
-    }
-
-
 }

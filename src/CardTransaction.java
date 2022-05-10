@@ -1,27 +1,23 @@
-class CardTransaction{
+class CardTransaction extends SellerAction{
 
     private String cardID;
     private double amount;
-    private String reason;
+    
     CardTransaction(String cardID,double amount,String reason){
-        this.cardID=cardID;
-        this.amount=amount;
-        this.reason=reason;
+    	super(reason);
+        this.cardID = cardID;
+        this.amount = amount;
     }
 
     String getCardID(){
         return this.cardID;
     }
 
-    double amount(){
+    double getAmount(){
         return this.amount;
-    }
-
-    String reason(){
-        return this.reason;
     }
     
     public String toString(){
-        return "Card ID: "+ this.cardID + "\nAmount: " + this.amount + "\nReason: " + this.reason;
+        return "Card ID: "+ this.cardID + "\nAmount: " + this.amount + "\nReason: " + super.getReason();
     }
 }
