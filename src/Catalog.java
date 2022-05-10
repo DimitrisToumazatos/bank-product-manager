@@ -22,6 +22,10 @@ class Catalog {
     public void add(ProductSale newSale) {
         this.productSaleList.add(newSale);
     }
+    
+    public ArrayList<Seller> getSellerList() {
+    	return sellerList;
+    }
 
     public void printSellers() {
         for (Seller item : sellerList) {
@@ -34,7 +38,23 @@ class Catalog {
             System.out.println(item);
         }
     }
-
+    
+    public void printLoans() {
+    	for (Product item : productList) {
+    		if(item instanceof Loan) {
+    			System.out.println(item);
+    		}
+    	}
+    }
+    
+    public void printCCs() {
+    	for (Product item : productList) {
+    		if(item instanceof CreditCard) {
+    			System.out.println(item);
+    		}
+    	}
+    }
+    
     public void printCardTransactions() {
         for (CardTransaction item : cardTransactionList) {
             System.out.println(item);
