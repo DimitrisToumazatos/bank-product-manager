@@ -1,6 +1,16 @@
+/* 
+ * 	Team Number: 055
+ * 
+ * 	Alexios Papadopoulos-Siountris 	3210154
+ *  Dimitrios Fotogiannopoulos 		3210214
+ *  Dimitrios Toumazatos 			3210199
+ *  
+ */
+
+
 import java.util.*;
 
-public class BankApp {
+public class mainApp {
 	static Catalog bankData = new Catalog();
 	static BankDict bankDict = new BankDict();
 	
@@ -12,8 +22,8 @@ public class BankApp {
 		
 		ArrayList<ProductSale> sales = bankDict.getActions(sellerID);
 
-		double com = 0;
 		double loan_amount = 0;
+		double com = 0;
 		
 		for(ProductSale psale : sales) {
 			String productID = psale.getProductID();
@@ -22,7 +32,8 @@ public class BankApp {
 				ArrayList<CardTransaction> cts = bankDict.getTransactionsByCard(productID);
 				
 				for(CardTransaction ct : cts) {
-					com += ct.getAmount() * bankDict.getInterestByCard(productID);
+					double cardCom = ct.getAmount() * bankDict.getInterestByCard(productID);
+					com += cardCom;
 				}
 			} else {
 				loan_amount += bankDict.getLoanAmount(productID);
@@ -154,8 +165,9 @@ public class BankApp {
 					
 				case 1:
 					String ID, fn, ln, TIN;
-					System.out.print("\nEnter Seller ID: ");
+					System.out.print("\nEnter '$' if you want to exit. Else enter Seller ID\nEnter Seller ID: ");
 					ID = in.nextLine();
+					if(ID.equals("$")) break;
 					System.out.print("\nEnter first name: ");
 					fn = in.nextLine();
 					System.out.print("\nEnter last name: ");
@@ -166,10 +178,13 @@ public class BankApp {
 					break;
 				
 				case 2:
-					System.out.print("\nDo you want to insert a loan or a credit card? (L/*): ");
-					String prod = in.nextLine();
-					
-					if (prod.toUpperCase().equals("L")) {
+					String prod = "";
+					while(!prod.equals("1") && !prod.equals("2") && !prod.equals("3")) {
+						System.out.print("\nDo you want to insert a loan or a credit card? (1: Loan/2: Credit Card/3: Exit): ");
+						prod = in.nextLine().strip();
+					}
+				
+					if (prod.equals("1")) {
 						String pID, num, pTIN;
 						double amount, yr;
 						
@@ -186,7 +201,7 @@ public class BankApp {
 						
 						bankData.add(new Loan(pID, num, pTIN, amount, yr));
 						
-					} else {
+					} else if (prod.equals("2")) {
 						String pID, num, pTIN;
 						double com, movelim, yearlim;
 						
@@ -209,8 +224,9 @@ public class BankApp {
 				
 				case 3:
 					String sID, pID, reason;
-					System.out.print("\nEnter Seller ID: ");
+					System.out.print("\nEnter '$' if you want to exit. Else enter Seller ID\nEnter Seller ID: ");
 					sID = in.nextLine();
+					if(sID.equals("$")) break;
 					
 					boolean exists = false;
 					
@@ -244,8 +260,9 @@ public class BankApp {
 					String cID, res;
 					double amount;
 					
-					System.out.print("\nEnter Credit Card ID: ");
+					System.out.print("\nEnter '$' if you want to exit. Else enter Credit Card ID\nEnter Credit Card ID: ");
 					cID = in.nextLine();
+					if(cID.equals("$"));
 					
 					if(!bankDict.containsCard(cID)) {
 						System.out.println("\nNo Credit Card with that ID found.");
@@ -266,16 +283,18 @@ public class BankApp {
 				
 				case 6:
 					bankData.printSellers();
-					System.out.print("\nEnter Seller ID to compute commission for: ");
+					System.out.print("\nEnter Seller ID to compute commission for or '$' to exit: ");
 					String sellerID = in.nextLine();
+					if(sellerID.equals("$")) break;
 					computeCommission(sellerID);
 					break;
 				
 				case 7:
 					bankData.printSellers();
 					String SID;
-					System.out.print("\nEnter Seller ID: ");
+					System.out.print("\nEnter '$' if you want to exit. Else enter Seller ID\nEnter Seller ID: ");
 					SID = in.nextLine();
+					if(SID.equals("$")) break;
 					ArrayList<ProductSale> salesOfSeller = bankDict.getActions(SID);
 					for(ProductSale ps : salesOfSeller) {
 						String prodID = ps.getProductID();
@@ -300,12 +319,12 @@ public class BankApp {
 						double com = computeCommission(seller.getID());
 						total_commissions += com;
 						System.out.print("\n-------------------\n");
-						System.out.printf("\n%s\nCommission Given: $%.2f\n", seller, com);
+						System.out.printf("\n%s\nCommission Given: %.2f Euro\n", seller, com);
 					}
 					
 					System.out.print("\n-------------------\n");
 					
-					System.out.printf("\nTotal Commissions: $%.2f\n", total_commissions);
+					System.out.printf("\nTotal Commissions: %.2f Euro\n", total_commissions);
 			}
 			
 			

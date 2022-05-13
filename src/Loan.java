@@ -17,6 +17,6 @@ class Loan extends Product {
 	}
 	
 	public String toString() {
-		return String.format("%s | Loan Amount: %s | Yearly Interest Rate: %s", super.toString(), amount, yearlyRate);
+		return String.format("%s | Loan Amount: %.2f Euro | Yearly Interest Rate: %.2f%%", super.toString(), amount, yearlyRate*100);
 	}
 }

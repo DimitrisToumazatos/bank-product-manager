@@ -18,6 +18,6 @@ class Product {
 	}
 	
 	public String toString() {
-		return String.format("[Product] ID: %s | Number: %s | TIN: %s", ID, number, TIN);
+		return String.format("ID: %s | Number: %s | TIN: %s", ID, number, TIN);
 	}
 }

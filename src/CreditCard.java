@@ -23,6 +23,6 @@ class CreditCard extends Product{
 	}
 	
 	public String toString() {
-		return String.format("%s | Commission% : %f | Move Limit: %f | Year Limit: %f ", super.toString(), commission, moveLimit, yearLimit);
+		return String.format("%s | Commission% : %f%% | Move Limit: %f Euro | Year Limit: %f Euro ", super.toString(), commission, moveLimit, yearLimit);
 	}
 }

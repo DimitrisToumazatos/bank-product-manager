@@ -19,6 +19,6 @@ class CardTransaction {
     }
     
     public String toString() {
-        return "Card ID: "+ this.cardID + "\nAmount: " + this.amount + "\nReason: " + this.reason;
+        return "Card ID: "+ this.cardID + "\nAmount: " + this.amount + " Euro\nReason: " + this.reason;
     }
 }

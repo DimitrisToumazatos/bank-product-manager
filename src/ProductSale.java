@@ -18,6 +18,6 @@ class ProductSale {
     }
     
     public String toString() {
-    	return "Product Sale by seller: " + sellerID + " | Product ID: " + productID + " | " + "Reason: " + reason;
+    	return "Seller ID: " + sellerID + " | Product ID: " + productID + " | " + "Reason: " + reason;
     }
 }
