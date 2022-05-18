@@ -13,6 +13,21 @@ import java.util.*;
 public class mainApp {
 	static Catalog bankData = new Catalog();
 	static BankDict bankDict = new BankDict();
+	static Scanner in = new Scanner(System.in);
+	
+	public static String returnToMenu(String action) {
+		String cont = "";
+		System.out.print(action + "... Proceed? (Yes: 1/No: 2)\n> ");
+		
+		do {
+			cont = in.nextLine();
+			if (!cont.equals("1") && !cont.equals("2")) {
+				System.out.print("Please type a valid answer (Yes: 1/No: 2)\n> ");
+			}
+		} while (!cont.equals("1") && !cont.equals("2"));					
+		
+		return cont;
+	}
 	
 	public static double computeCommission(String sellerID) {
 		if(!bankDict.containsSeller(sellerID)) {
@@ -54,9 +69,7 @@ public class mainApp {
 		return com;
 	}
 
-	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
-		
+	public static void main(String[] args) {		
 		bankData.add(new Seller("014", "Aleksandar 'Sasha'", "Vezenkov", "581510137"));
 		bankData.add(new Seller("002", "Tyler", "Dorsey", "232105129"));
 		bankData.add(new Seller("011", "Kostas", "Sloukas", "264908119"));
@@ -158,16 +171,21 @@ public class mainApp {
 			System.out.print("> ");
 			
 			int ans = Integer.parseInt(in.nextLine());
+			
 			switch(ans) {
 				case 0:
 					done = true;
 					break;
 					
 				case 1:
-					String ID, fn, ln, TIN;
-					System.out.print("\nEnter '$' if you want to exit. Else enter Seller ID\nEnter Seller ID: ");
+					if (returnToMenu("Inserting Seller").equals("2")) {
+						break;
+					}
+					
+					String ID, fn, ln, TIN;					
+					
+					System.out.print("\nEnter Seller ID: ");
 					ID = in.nextLine();
-					if(ID.equals("$")) break;
 					System.out.print("\nEnter first name: ");
 					fn = in.nextLine();
 					System.out.print("\nEnter last name: ");
@@ -177,7 +195,11 @@ public class mainApp {
 					bankData.add(new Seller(ID, fn, ln, TIN));
 					break;
 				
-				case 2:
+				case 2:										
+					if (returnToMenu("Inserting Bank Product").equals("2")) {
+						break;
+					}
+					
 					String prod = "";
 					while(!prod.equals("1") && !prod.equals("2") && !prod.equals("3")) {
 						System.out.print("\nDo you want to insert a loan or a credit card? (1: Loan/2: Credit Card/3: Exit): ");
@@ -223,10 +245,13 @@ public class mainApp {
 					break;
 				
 				case 3:
+					if (returnToMenu("Inserting Product Sale").equals("2")) {
+						break;
+					}
+					
+					
 					String sID, pID, reason;
-					System.out.print("\nEnter '$' if you want to exit. Else enter Seller ID\nEnter Seller ID: ");
 					sID = in.nextLine();
-					if(sID.equals("$")) break;
 					
 					boolean exists = false;
 					
@@ -257,12 +282,15 @@ public class mainApp {
 					break;
 				
 				case 4:
+					if (returnToMenu("Inserting Credit Card Tansaction").equals("2")) {
+						break;
+					}
+					
 					String cID, res;
 					double amount;
 					
-					System.out.print("\nEnter '$' if you want to exit. Else enter Credit Card ID\nEnter Credit Card ID: ");
+					System.out.print("\nEnter Credit Card ID: ");
 					cID = in.nextLine();
-					if(cID.equals("$"));
 					
 					if(!bankDict.containsCard(cID)) {
 						System.out.println("\nNo Credit Card with that ID found.");
@@ -278,23 +306,33 @@ public class mainApp {
 					break;
 					
 				case 5:
+					if (returnToMenu("Showing Loans").equals("2")) {
+						break;
+					}
+					
 					bankData.printLoans();
 					break;
 				
 				case 6:
+					if (returnToMenu("Computing a Seller's Commission").equals("2")) {
+						break;
+					}
+					
 					bankData.printSellers();
-					System.out.print("\nEnter Seller ID to compute commission for or '$' to exit: ");
+					System.out.print("\nEnter Seller ID to compute commission for: ");
 					String sellerID = in.nextLine();
-					if(sellerID.equals("$")) break;
 					computeCommission(sellerID);
 					break;
 				
 				case 7:
+					if (returnToMenu("Showing Seller-Linked Credit Card Transactions").equals("2")) {
+						break;
+					}
+					
 					bankData.printSellers();
 					String SID;
-					System.out.print("\nEnter '$' if you want to exit. Else enter Seller ID\nEnter Seller ID: ");
+					System.out.print("\nEnter Seller ID: ");
 					SID = in.nextLine();
-					if(SID.equals("$")) break;
 					ArrayList<ProductSale> salesOfSeller = bankDict.getActions(SID);
 					for(ProductSale ps : salesOfSeller) {
 						String prodID = ps.getProductID();
@@ -307,12 +345,20 @@ public class mainApp {
 					break;
 				
 				case 8:
+					if (returnToMenu("Computing Commission for all Sellers").equals("2")) {
+						break;
+					}
+					
 					for(String seller_ID : bankDict.getSellers()) {
 						computeCommission(seller_ID);
 					}
 					break;
 					
 				case 9:
+					if (returnToMenu("Showing the Commission Amount of all Sellers").equals("2")) {
+						break;
+					}
+					
 					double total_commissions = 0;
 					
 					for(Seller seller : bankData.getSellerList()) {
@@ -325,6 +371,7 @@ public class mainApp {
 					System.out.print("\n-------------------\n");
 					
 					System.out.printf("\nTotal Commissions: %.2f Euro\n", total_commissions);
+					break;
 			}
 			
 			
@@ -332,5 +379,6 @@ public class mainApp {
 		
 		in.close();
 	}
+	
 
 }
