@@ -13,6 +13,7 @@ import java.util.*;
 public class mainApp {
 	static Catalog bankData = new Catalog();
 	static BankDict bankDict = new BankDict();
+	static BankSellers sellers = new BankSellers();
 	static Scanner in = new Scanner(System.in);
 	
 	public static String returnToMenu(String action) {
@@ -28,6 +29,8 @@ public class mainApp {
 		
 		return cont;
 	}
+	
+	static BankSellers bankSellers = new BankSellers();
 	
 	public static double computeCommission(String sellerID) {
 		if(!bankDict.containsSeller(sellerID)) {
@@ -172,7 +175,7 @@ public class mainApp {
 			
 			int ans = Integer.parseInt(in.nextLine());
 			
-			switch(ans) {
+			switch(ans) {			
 				case 0:
 					done = true;
 					break;

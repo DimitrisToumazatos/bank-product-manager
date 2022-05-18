@@ -6,6 +6,11 @@ class BankDict {
     private HashMap<String, Double> cardIDs = new HashMap<String, Double>();
     private HashMap<String, Double> loanIDs = new HashMap<String, Double>();
     private HashMap<String, Double> sellerCommissions = new HashMap<String, Double>();
+    
+    // 1 hashmap product_id -> product object
+    // to test type: if Object instanceof Loan
+    // for commission we use getter
+    // to check if exists: contains in hashmap
 	
 	void addAction(String ID, ProductSale sale) {
 		if (sellerDictionary.containsKey(ID)) {

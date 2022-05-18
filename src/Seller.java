@@ -1,4 +1,4 @@
-class Seller {
+class Seller extends BankSellers {
 
     private String ID;
     private String firstName;
@@ -10,6 +10,8 @@ class Seller {
         this.firstName = firstName;
         this.lastName = lastName;
         this.TIN = TIN;
+        super.key++;
+        super.sellers.put(key, this);
     }
 
     String getID() {
