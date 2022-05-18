@@ -2,14 +2,9 @@ import java.util.*;
 
 class Catalog {
 
-    private ArrayList<Seller> sellerList = new ArrayList<Seller>();
     private ArrayList<Product> productList = new ArrayList<Product>();
     private ArrayList<CardTransaction> cardTransactionList = new ArrayList<CardTransaction>();
     private ArrayList<ProductSale> productSaleList = new ArrayList<ProductSale>();
-
-    public void add(Seller newSeller) {
-        this.sellerList.add(newSeller);
-    }
 
     public void add(Product newProduct) {
         this.productList.add(newProduct);
@@ -21,16 +16,6 @@ class Catalog {
 
     public void add(ProductSale newSale) {
         this.productSaleList.add(newSale);
-    }
-    
-    public ArrayList<Seller> getSellerList() {
-    	return sellerList;
-    }
-
-    public void printSellers() {
-        for (Seller item : sellerList) {
-            System.out.println(item);
-        }
     }
 
     public void printProducts() {

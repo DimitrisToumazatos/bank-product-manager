@@ -1,10 +1,8 @@
 import java.util.*;
 
 class BankDict {
-	private HashMap<String, ArrayList<ProductSale>> sellerDictionary  = new HashMap<String, ArrayList<ProductSale>>();
-	private HashMap<String, ArrayList<CardTransaction>> cardDictionary = new HashMap<String, ArrayList<CardTransaction>>();
-    private HashMap<String, Double> cardIDs = new HashMap<String, Double>();
-    private HashMap<String, Double> loanIDs = new HashMap<String, Double>();
+	private HashMap<String, CreditCard> cards = new HashMap<String, CreditCard>();
+	private HashMap<String, Loan> loans = new HashMap<String, Loan>();
     private HashMap<String, Double> sellerCommissions = new HashMap<String, Double>();
     
     // 1 hashmap product_id -> product object
@@ -12,22 +10,20 @@ class BankDict {
     // for commission we use getter
     // to check if exists: contains in hashmap
 	
-	void addAction(String ID, ProductSale sale) {
-		if (sellerDictionary.containsKey(ID)) {
-			sellerDictionary.get(ID).add(sale);
-		} else {
-			sellerDictionary.put(ID, new ArrayList<ProductSale>() );
-			sellerDictionary.get(ID).add(sale);
-		}
+	void add(String productID, CreditCard product) {
+		cards.put(productID, product);
 	}
 	
-	void addAction(String cardID, CardTransaction ct) {
-		if(cardDictionary.containsKey(cardID)) {
-			cardDictionary.get(cardID).add(ct);
-		} else {
-			cardDictionary.put(cardID, new ArrayList<CardTransaction>());
-			cardDictionary.get(cardID).add(ct);
-		}
+	void add(String productID, Loan product) {
+		loans.put(productID, product);
+	}
+	
+	CreditCard getCard(String productID) {
+		return cards.get(productID);
+	}
+	
+	Loan getLoan(String productID) {
+		return loans.get(productID);
 	}
 	
 	void addSellerCommission(String sellerID, double com) {
@@ -39,56 +35,27 @@ class BankDict {
 		sellerCommissions.replace(sellerID, com);
 	}
 	
-	void addCardID(String cardID, double commission) {
-		cardIDs.put(cardID, commission);
-	}
-	
-	void addLoanID(String loanID, double amount) {
-		loanIDs.put(loanID, amount);
-	}
-	
-	ArrayList<ProductSale> getActions(String ID) {
-		return sellerDictionary.get(ID);
-	}
-	
-	ArrayList<CardTransaction> getTransactionsByCard(String cardID) {
-		return cardDictionary.get(cardID);
-	}
-	
 	double getCommission(String ID) {
 		return sellerCommissions.get(ID);
-	}
-	
-	Set<String> getSellers() {
-		return sellerDictionary.keySet();
 	}
 	
 	ArrayList<Double> getCommissions() {
 		return (ArrayList<Double>)sellerCommissions.values();
 	}
+	
 	double getInterestByCard(String ID) {
-		return cardIDs.get(ID);
+		return cards.get(ID).getCommission();
 	}
 	
 	double getLoanAmount(String ID) {
-		return loanIDs.get(ID);
+		return loans.get(ID).getAmount();
 	}
 	
 	public boolean containsLoan(String ID) {
-    	return loanIDs.containsKey(ID);
+    	return loans.containsKey(ID);
     }
-	
-	public boolean containsSeller(String ID) {
-		return sellerDictionary.containsKey(ID);
-	}
     
     public boolean containsCard(String ID) {
-    	return cardIDs.containsKey(ID);
-    }
-	
-	void printActionsByID(String ID) {
-		for (ProductSale item : sellerDictionary.get(ID)) {
-			System.out.println(item);
-		}
-	}	
+    	return cards.containsKey(ID);
+    }	
 }
