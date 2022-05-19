@@ -11,9 +11,9 @@
 import java.util.*;
 
 public class mainApp {
-	static Catalog bankData = new Catalog();
 	static BankDict bankDict = new BankDict();
 	static BankSellers sellers = new BankSellers();
+	static BankProducts products = new BankProducts();
 	static Scanner in = new Scanner(System.in);
 	
 	public static String returnToMenu(String action) {
@@ -97,34 +97,27 @@ public class mainApp {
 		
 		Loan l = new Loan("L1", "01", "998751013", 1, 250000.0, 0.03);
 		bankDict.add("L1", l);
-		bankData.add(l);
 		sellers.getSeller(1).setCommission("loans", l.getAmount());
 		
 		l = new Loan("L2", "02", "211103214", 4, 20.5, 0.09);
 		bankDict.add("L2", l);
-		bankData.add(l);
 		sellers.getSeller(4).setCommission("loans", l.getAmount());
 		
 		l = new Loan("L3", "03", "120803199", 3, 49.99, 0.07);
 		bankDict.add("L3", l);
-		bankData.add(l);
 		sellers.getSeller(3).setCommission("loans", l.getAmount());
 		
 		l = new Loan("L4", "04", "140203154", 0, 9.0, 0.43);
 		bankDict.add("L4", l);
-		bankData.add(l);
 		
 		CreditCard card = new CreditCard("C1", "05", "03163589", 5, 0.005, 2000.0, 100000.0);
 		bankDict.add("C1", card);
-		bankData.add(card);
 		
 		card = new CreditCard("C2", "06", "90367834", 3, 0.007, 5000.0, 200000.0);
 		bankDict.add("C2", card);
-		bankData.add(card);
 		
 		card = new CreditCard("C3", "07", "98964824", 2, 0.009, 10000.0, 500000.0);
 		bankDict.add("C3", card);
-		bankData.add(card);
 		
 		ProductSale aps = new ProductSale("014", "L1", "Reconstruction of Monaco BC home stadium.");
 		ProductSale bps = new ProductSale("077", "L2", "Mandatory repairs for damages in OAKA."); 
@@ -132,13 +125,6 @@ public class mainApp {
 		ProductSale dps = new ProductSale("015", "C1", "Netflix account instead of communication with teammates.");
 		ProductSale eps = new ProductSale("011", "C2", "Baby expenses.");
 		ProductSale fps = new ProductSale("002", "C3", "Caffeine products, must wake up.");
-		
-		bankData.add(aps);
-		bankData.add(bps);
-		bankData.add(cps);
-		bankData.add(dps);
-		bankData.add(eps);
-		bankData.add(fps);
 		
 		sellers.getSeller(1).addSale(aps);
 		sellers.getSeller(4).addSale(bps);
@@ -151,39 +137,30 @@ public class mainApp {
 		CardTransaction b = new CardTransaction("C1", 25.0, "Movie bill");
 		CardTransaction c = new CardTransaction("C1", 10.0, "TV Show bill");
 		CardTransaction d = new CardTransaction("C1", 7.50, "Movie ticket");
-		bankData.add(a);
+		
 		bankDict.getCard("C1").addTransaction(a);
-		bankData.add(b);
 		bankDict.getCard("C1").addTransaction(b);
-		bankData.add(c);
 		bankDict.getCard("C1").addTransaction(c);
-		bankData.add(d);
 		bankDict.getCard("C1").addTransaction(d);
 		
 		CardTransaction a2 = new CardTransaction("C2", 100.0, "Diapers");
 		CardTransaction b2 = new CardTransaction("C2", 200.0, "Baby swing");
 		CardTransaction c2 = new CardTransaction("C2", 30.0, "Tricycle");
 		CardTransaction d2 = new CardTransaction("C2", 5.0, "Pacifier");
-		bankData.add(a2);
+		
 		bankDict.getCard("C2").addTransaction(a2);
-		bankData.add(b2);
 		bankDict.getCard("C2").addTransaction(b2);
-		bankData.add(c2);
 		bankDict.getCard("C2").addTransaction(c2);
-		bankData.add(d2);
 		bankDict.getCard("C2").addTransaction(d2);
 		
 		CardTransaction a3 = new CardTransaction("C3", 20.0, "Aeropress");
 		CardTransaction b3 = new CardTransaction("C3", 8.00, "Coffee beans");
 		CardTransaction c3 = new CardTransaction("C3", 200.0, "Espresso machine");
 		CardTransaction d3 = new CardTransaction("C3", 9.99, "Caffeine gums");
-		bankData.add(a3);
+		
 		bankDict.getCard("C3").addTransaction(a3);
-		bankData.add(b3);
 		bankDict.getCard("C3").addTransaction(b3);
-		bankData.add(c3);
 		bankDict.getCard("C3").addTransaction(c3);
-		bankData.add(d3);
 		bankDict.getCard("C3").addTransaction(d3);
 		
 		
@@ -220,8 +197,8 @@ public class mainApp {
 			
 			int ans = Integer.parseInt(in.nextLine());
 			
-			String sID, pID;
-			int key;
+			String sID, pID, reason;
+			int key, productKey;
 			CardTransaction ct;
 			switch(ans) {			
 				case 0:
@@ -273,7 +250,6 @@ public class mainApp {
 						yr = Double.parseDouble(in.nextLine());
 						
 						l = new Loan(pID, num, pTIN, 0, amount, yr);
-						bankData.add(l);
 						bankDict.add(pID, l);
 						
 					} else if (prod.equals("2")) {
@@ -292,8 +268,7 @@ public class mainApp {
 						movelim = Double.parseDouble(in.nextLine());
 						System.out.print("\nEnter max year limit: ");
 						yearlim = Double.parseDouble(in.nextLine());
-						
-						bankData.add(new CreditCard(pID, num, pTIN, 0, com, movelim, yearlim));
+						bankDict.add(pID, new CreditCard(pID, num, pTIN, 0, com, movelim, yearlim));
 					}
 					break;
 				
@@ -303,7 +278,7 @@ public class mainApp {
 					}
 					
 					
-					String reason;
+					System.out.println("\n\t\t(Choose Seller)");
 					sellers.printSellers();
 					System.out.print("\nEnter Seller Key: ");
 					key = Integer.parseInt(in.nextLine());
@@ -311,23 +286,31 @@ public class mainApp {
 					if(!sellers.sellerExists(key)) {
 						System.out.println("No seller with that key found.");
 						break;
-					}
-					
+					}					
 					
  					sID = sellers.getSeller(key).getID();
-					System.out.print("\nEnter Product ID: ");
-					pID = in.nextLine();
+ 					
+ 					
+ 					System.out.println("\n\t\t(Choose Unsold Product)");
+ 					if(!products.printProducts()) {
+ 						System.out.println("No unsold products left. Please first insert a new product.");
+ 						break;
+ 					}
+ 					System.out.print("\nEnter Product Key: ");
+ 					productKey = Integer.parseInt(in.nextLine());
+ 					
+ 					if(!products.productExists(productKey) || products.getProduct(productKey).getSellerKey() != 0) {
+ 						System.out.println("\nNo unsold product with that key found.");
+ 						break;
+ 					}
+ 					
+					pID = products.getProduct(productKey).getID();
+					
 					System.out.print("\nEnter reason: ");
 					reason = in.nextLine();
 					
-					if(bankDict.containsLoan(pID) || bankDict.containsCard(pID)) {
-						ProductSale sale = new ProductSale(sID, pID, reason);
-						bankData.add(sale);
-						sellers.getSeller(key).addSale(sale);
-					} else {
-						System.out.println("No product with that ID found.");
-						break;
-					}
+					ProductSale sale = new ProductSale(sID, pID, reason);
+					sellers.getSeller(key).addSale(sale);
 					
 					if(bankDict.containsCard(pID)) {
 						bankDict.getCard(pID).setSeller(key);
@@ -344,24 +327,32 @@ public class mainApp {
 					if (returnToMenu("Inserting Credit Card Tansaction").equals("2")) {
 						break;
 					}
-					
-					String cID, res;
+
 					double amount;
 					
-					System.out.print("\nEnter Credit Card ID: ");
-					cID = in.nextLine();
+					System.out.println("\n\t\t(Choose Credit Card)");
+ 					products.printCards();
+ 					System.out.print("\nEnter Credit Card Key: ");
+ 					productKey = Integer.parseInt(in.nextLine());
+ 					
+ 					if(!products.productExists(productKey) || products.getProduct(productKey) instanceof Loan) {
+ 						System.out.println("\nNo Credit Card with that key found.");
+ 						break;
+ 					}
+ 					
+					pID = products.getProduct(productKey).getID();
 					
-					if(!bankDict.containsCard(cID)) {
-						System.out.println("\nNo Credit Card with that ID found.");
+					if(bankDict.getCard(pID).getCashFlow() >= bankDict.getCard(pID).getYearLimit()) {
+						System.out.printf("\nThis Credit Card has maxed out for the year. (%.2f Euro Yearly Limit Reached)\n", bankDict.getCard(pID).getYearLimit());
 						break;
 					}
 					
 					System.out.print("\nEnter Amount: ");
 					amount = Double.parseDouble(in.nextLine());
 					
-					double maxLim = bankDict.getCard(cID).getMoveLimit();
-					double yearLim = bankDict.getCard(cID).getYearLimit();
-					double cashFlow = bankDict.getCard(cID).getCashFlow();
+					double maxLim = bankDict.getCard(pID).getMoveLimit();
+					double yearLim = bankDict.getCard(pID).getYearLimit();
+					double cashFlow = bankDict.getCard(pID).getCashFlow();
 					
 					while(amount > maxLim || amount + cashFlow > yearLim) {
 						if(amount > maxLim) {
@@ -376,17 +367,16 @@ public class mainApp {
 					}
 					
 					System.out.print("\nEnter reason: ");
-					res = in.nextLine();
+					reason = in.nextLine();
 					
-					CreditCard temp = bankDict.getCard(cID);
+					CreditCard temp = bankDict.getCard(pID);
 					temp.increaseCashFlow(amount);
 					Seller tempSeller = sellers.getSeller(temp.getSellerKey());
-					double sellerCommission = tempSeller.getCommission(cID) + amount * temp.getCommission();
-					tempSeller.setCommission(cID, sellerCommission);
+					double sellerCommission = tempSeller.getCommission(pID) + amount * temp.getCommission();
+					tempSeller.setCommission(pID, sellerCommission);
 					
-					ct = new CardTransaction(cID, amount, res);
-					bankData.add(ct);
-					bankDict.getCard(cID).addTransaction(ct);
+					ct = new CardTransaction(pID, amount, reason);
+					bankDict.getCard(pID).addTransaction(ct);
 					break;
 					
 				case 5:
@@ -407,6 +397,7 @@ public class mainApp {
 						break;
 					}
 					
+					System.out.println("\n\t\t(Choose Seller)");
 					sellers.printSellers();
 					System.out.print("\nEnter Seller Key: ");
 					key = Integer.parseInt(in.nextLine());
