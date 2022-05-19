@@ -34,6 +34,10 @@ class BankDict {
 		return new ArrayList<CreditCard>(cards.values());
 	}
 	
+	ArrayList<Loan> getLoans() {
+		return new ArrayList<Loan>(loans.values());
+	}
+	
 	double getCommission(String ID) {
 		return sellerCommissions.get(ID);
 	}

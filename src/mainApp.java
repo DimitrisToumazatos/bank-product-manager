@@ -18,7 +18,7 @@ public class mainApp {
 	
 	public static String returnToMenu(String action) {
 		String cont = "";
-		System.out.print(action + "... Proceed? (Yes: 1/No: 2)\n> ");
+		System.out.print("\n" + action + "... Proceed? (Yes: 1/No: 2)\n> ");
 		
 		do {
 			cont = in.nextLine();
@@ -95,24 +95,24 @@ public class mainApp {
 		new Seller("077", "Shaquille", "McKissic", "191508067");
 		new Seller("015", "Giorgos", "Printezis", "130301037");
 		
-		Loan loan = new Loan("L1", "01", "998751013", 1, 250000.0, 0.03);
-		bankDict.add("L1", loan);
-		bankData.add(loan);
-		sellers.getSeller(1).setCommission("loans", loan.getAmount());
+		Loan l = new Loan("L1", "01", "998751013", 1, 250000.0, 0.03);
+		bankDict.add("L1", l);
+		bankData.add(l);
+		sellers.getSeller(1).setCommission("loans", l.getAmount());
 		
-		loan = new Loan("L2", "02", "211103214", 4, 20.5, 0.09);
-		bankDict.add("L2", loan);
-		bankData.add(loan);
-		sellers.getSeller(4).setCommission("loans", loan.getAmount());
+		l = new Loan("L2", "02", "211103214", 4, 20.5, 0.09);
+		bankDict.add("L2", l);
+		bankData.add(l);
+		sellers.getSeller(4).setCommission("loans", l.getAmount());
 		
-		loan = new Loan("L3", "03", "120803199", 3, 49.99, 0.07);
-		bankDict.add("L3", loan);
-		bankData.add(loan);
-		sellers.getSeller(3).setCommission("loans", loan.getAmount());
+		l = new Loan("L3", "03", "120803199", 3, 49.99, 0.07);
+		bankDict.add("L3", l);
+		bankData.add(l);
+		sellers.getSeller(3).setCommission("loans", l.getAmount());
 		
-		loan = new Loan("L4", "04", "140203154", 0, 9.0, 0.43);
-		bankDict.add("L4", loan);
-		bankData.add(loan);
+		l = new Loan("L4", "04", "140203154", 0, 9.0, 0.43);
+		bankDict.add("L4", l);
+		bankData.add(l);
 		
 		CreditCard card = new CreditCard("C1", "05", "03163589", 5, 0.005, 2000.0, 100000.0);
 		bankDict.add("C1", card);
@@ -187,13 +187,14 @@ public class mainApp {
 		bankDict.getCard("C3").addTransaction(d3);
 		
 		
-		/* Initializes the commissions for all the above card transactions */
+		/* Initializes the commissions and cash flow for all the above card transactions */
 		
 		for(CreditCard cc : bankDict.getCCs()) {
 			double transactionCommission = 0;
 			
 			for(CardTransaction ct : cc.getTransactions()) {
 				transactionCommission += ct.getAmount() * cc.getCommission();
+				cc.increaseCashFlow(ct.getAmount());
 			}
 			
 			sellers.getSeller(cc.getSellerKey()).setCommission(cc.getID(), transactionCommission);
@@ -271,7 +272,9 @@ public class mainApp {
 						System.out.print("\nEnter yearly rate: ");
 						yr = Double.parseDouble(in.nextLine());
 						
-						bankData.add(new Loan(pID, num, pTIN, 0, amount, yr));
+						l = new Loan(pID, num, pTIN, 0, amount, yr);
+						bankData.add(l);
+						bankDict.add(pID, l);
 						
 					} else if (prod.equals("2")) {
 						String num, pTIN;
@@ -353,12 +356,30 @@ public class mainApp {
 						break;
 					}
 					
-					System.out.print("\nEnter Credit Card Amount: ");
+					System.out.print("\nEnter Amount: ");
 					amount = Double.parseDouble(in.nextLine());
+					
+					double maxLim = bankDict.getCard(cID).getMoveLimit();
+					double yearLim = bankDict.getCard(cID).getYearLimit();
+					double cashFlow = bankDict.getCard(cID).getCashFlow();
+					
+					while(amount > maxLim || amount + cashFlow > yearLim) {
+						if(amount > maxLim) {
+							System.out.printf("\nThe amount you entered exceeds the card's max move limit (%.2f Euro)", maxLim);
+							System.out.print("\nEnter smaller amount: ");
+						} else if(amount+cashFlow > yearLim) {
+							System.out.printf("\nThis card can only use %.2f Euro for the rest of the year.", yearLim-cashFlow);
+							System.out.print("\nEnter smaller amount: ");
+						}
+						
+						amount = Double.parseDouble(in.nextLine());
+					}
+					
 					System.out.print("\nEnter reason: ");
 					res = in.nextLine();
 					
 					CreditCard temp = bankDict.getCard(cID);
+					temp.increaseCashFlow(amount);
 					Seller tempSeller = sellers.getSeller(temp.getSellerKey());
 					double sellerCommission = tempSeller.getCommission(cID) + amount * temp.getCommission();
 					tempSeller.setCommission(cID, sellerCommission);
@@ -373,7 +394,12 @@ public class mainApp {
 						break;
 					}
 					
-					bankData.printLoans();
+					for(Loan loan : bankDict.getLoans()) {
+						System.out.print("\n-------------------\n");
+						if(loan.getSellerKey() != 0) System.out.printf("\nLoan: %s\n\n(Seller)\n%s\n", loan, sellers.getSeller(loan.getSellerKey()));
+						else System.out.printf("\nLoan: %s\n\nNot Sold Yet\n", loan);
+					}
+					System.out.print("\n-------------------\n");
 					break;
 				
 				case 6:

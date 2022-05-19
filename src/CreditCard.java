@@ -4,6 +4,7 @@ class CreditCard extends Product{
 	private double commission;
 	private double moveLimit;
 	private double yearLimit;
+	private double cashFlow;
 	private ArrayList<CardTransaction> transactions;
 	
 	CreditCard(String ID, String number, String TIN, int seller_key, double commission, double moveLimit, double yearLimit) {
@@ -11,11 +12,16 @@ class CreditCard extends Product{
 		this.commission = commission;
 		this.moveLimit = moveLimit;
 		this.yearLimit = yearLimit;
+		this.cashFlow = 0;
 		this.transactions = new ArrayList<CardTransaction>();
 	}
 	
 	void addTransaction(CardTransaction ct) {
 		transactions.add(ct);
+	}
+	
+	void increaseCashFlow(double amount) {
+		cashFlow += amount;
 	}
 	
 	ArrayList<CardTransaction> getTransactions() {
@@ -24,6 +30,10 @@ class CreditCard extends Product{
 	
 	double getCommission() {
 		return commission;
+	}
+	
+	double getCashFlow() {
+		return cashFlow;
 	}
 	
 	double getMoveLimit() {
