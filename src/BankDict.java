@@ -4,11 +4,6 @@ class BankDict {
 	private HashMap<String, CreditCard> cards = new HashMap<String, CreditCard>();
 	private HashMap<String, Loan> loans = new HashMap<String, Loan>();
     private HashMap<String, Double> sellerCommissions = new HashMap<String, Double>();
-    
-    // 1 hashmap product_id -> product object
-    // to test type: if Object instanceof Loan
-    // for commission we use getter
-    // to check if exists: contains in hashmap
 	
 	void add(String productID, CreditCard product) {
 		cards.put(productID, product);
@@ -16,6 +11,15 @@ class BankDict {
 	
 	void add(String productID, Loan product) {
 		loans.put(productID, product);
+	}
+	
+	void addSellerCommission(String sellerID, double com) {
+		if(!sellerCommissions.containsKey(sellerID)) {
+			sellerCommissions.put(sellerID, com);
+			return;
+		}
+		
+		sellerCommissions.replace(sellerID, com);
 	}
 	
 	CreditCard getCard(String productID) {
@@ -26,13 +30,8 @@ class BankDict {
 		return loans.get(productID);
 	}
 	
-	void addSellerCommission(String sellerID, double com) {
-		if(!sellerCommissions.containsKey(sellerID)) {
-			sellerCommissions.put(sellerID, com);
-			return;
-		}
-		
-		sellerCommissions.replace(sellerID, com);
+	ArrayList<CreditCard> getCCs() {
+		return new ArrayList<CreditCard>(cards.values());
 	}
 	
 	double getCommission(String ID) {

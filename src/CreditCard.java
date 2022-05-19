@@ -6,8 +6,8 @@ class CreditCard extends Product{
 	private double yearLimit;
 	private ArrayList<CardTransaction> transactions;
 	
-	CreditCard(String ID, String number, String TIN, double commission, double moveLimit, double yearLimit) {
-		super(ID, number, TIN);
+	CreditCard(String ID, String number, String TIN, int seller_key, double commission, double moveLimit, double yearLimit) {
+		super(ID, number, TIN, seller_key);
 		this.commission = commission;
 		this.moveLimit = moveLimit;
 		this.yearLimit = yearLimit;
@@ -35,6 +35,6 @@ class CreditCard extends Product{
 	}
 	
 	public String toString() {
-		return String.format("%s | Commission% : %f%% | Move Limit: %f Euro | Year Limit: %f Euro ", super.toString(), commission, moveLimit, yearLimit);
+		return String.format("%s | Commission%% : %.2f%% | Move Limit: %.2f Euro | Year Limit: %.2f Euro ", super.toString(), commission*100, moveLimit, yearLimit);
 	}
 }

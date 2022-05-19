@@ -17,6 +17,10 @@ class Catalog {
     public void add(ProductSale newSale) {
         this.productSaleList.add(newSale);
     }
+    
+    public ArrayList<Product> getProducts() {
+    	return productList;
+    }
 
     public void printProducts() {
         for (Product item : productList) {
