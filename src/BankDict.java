@@ -5,15 +5,15 @@ class BankDict {
 	private HashMap<String, Loan> loans = new HashMap<String, Loan>();
     private HashMap<String, Double> sellerCommissions = new HashMap<String, Double>();
 	
-	void add(String productID, CreditCard product) {
+	public void add(String productID, CreditCard product) {
 		cards.put(productID, product);
 	}
 	
-	void add(String productID, Loan product) {
+	public void add(String productID, Loan product) {
 		loans.put(productID, product);
 	}
 	
-	void addSellerCommission(String sellerID, double com) {
+	public void addSellerCommission(String sellerID, double com) {
 		if(!sellerCommissions.containsKey(sellerID)) {
 			sellerCommissions.put(sellerID, com);
 			return;
@@ -22,35 +22,35 @@ class BankDict {
 		sellerCommissions.replace(sellerID, com);
 	}
 	
-	CreditCard getCard(String productID) {
+	public CreditCard getCard(String productID) {
 		return cards.get(productID);
 	}
 	
-	Loan getLoan(String productID) {
+	public Loan getLoan(String productID) {
 		return loans.get(productID);
 	}
 	
-	ArrayList<CreditCard> getCCs() {
+	public ArrayList<CreditCard> getCCs() {
 		return new ArrayList<CreditCard>(cards.values());
 	}
 	
-	ArrayList<Loan> getLoans() {
+	public ArrayList<Loan> getLoans() {
 		return new ArrayList<Loan>(loans.values());
 	}
 	
-	double getCommission(String ID) {
+	public double getCommission(String ID) {
 		return sellerCommissions.get(ID);
 	}
 	
-	ArrayList<Double> getCommissions() {
+	public ArrayList<Double> getCommissions() {
 		return (ArrayList<Double>)sellerCommissions.values();
 	}
 	
-	double getInterestByCard(String ID) {
+	public double getInterestByCard(String ID) {
 		return cards.get(ID).getCommission();
 	}
 	
-	double getLoanAmount(String ID) {
+	public double getLoanAmount(String ID) {
 		return loans.get(ID).getAmount();
 	}
 	

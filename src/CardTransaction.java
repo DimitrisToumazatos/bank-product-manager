@@ -4,17 +4,17 @@ class CardTransaction {
     private String reason;
     private double amount;
     
-    CardTransaction(String cardID, double amount, String reason) {
+    public CardTransaction(String cardID, double amount, String reason) {
         this.cardID = cardID;
         this.amount = amount;
         this.reason = reason;
     }
 
-    String getCardID() {
+    public String getCardID() {
         return this.cardID;
     }
 
-    double getAmount() {
+    public double getAmount() {
         return this.amount;
     }
     

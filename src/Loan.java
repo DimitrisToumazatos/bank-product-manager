@@ -2,17 +2,17 @@ class Loan extends Product {
 	private double amount;
 	private double yearlyRate;
 	
-	Loan(String ID, String number, String TIN, int seller_key, double amount, double yearlyRate) {
+	public Loan(String ID, String number, String TIN, int seller_key, double amount, double yearlyRate) {
 		super(ID, number, TIN, seller_key);
 		this.amount = amount;
 		this.yearlyRate = yearlyRate;
 	}
 	
-	double getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 	
-	double getYearlyRate() {
+	public double getYearlyRate() {
 		return yearlyRate;
 	}
 	

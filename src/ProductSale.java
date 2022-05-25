@@ -3,17 +3,17 @@ class ProductSale {
     private String productID;
     private String reason;
     
-    ProductSale(String sellerID,String productID,String reason) {
+    public ProductSale(String sellerID,String productID,String reason) {
         this.sellerID=sellerID;
         this.productID=productID;
         this.reason = reason;
     }
     
-    String getSellerID() {
+    public String getSellerID() {
         return sellerID;
     }
     
-    String getProductID() {
+    public String getProductID() {
         return productID;
     }
     

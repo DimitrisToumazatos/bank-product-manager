@@ -21,7 +21,7 @@ class BankSellers {
 		return sellers.containsKey(key);
 	}
 	
-	public ArrayList<Seller> getSellerList() {
+	ArrayList<Seller> getSellerList() {
     	return new ArrayList<Seller>(sellers.values());
     }
 	

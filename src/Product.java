@@ -4,7 +4,7 @@ class Product extends BankProducts {
 	protected String TIN;
 	protected int seller_key;
 	
-	Product(String ID, String number, String TIN, int seller_key) {
+	public Product(String ID, String number, String TIN, int seller_key) {
 		this.ID = ID;
 		this.number = number;
 		this.TIN = TIN;
@@ -12,23 +12,23 @@ class Product extends BankProducts {
 		super.insertProduct(this);
 	}
 
-	void setSeller(int key) {
+	public void setSeller(int key) {
 		seller_key = key;
 	}
 	
-	String getID() {
+	public String getID() {
 		return ID;
 	}
 	
-	String getNumber() {
+	public String getNumber() {
 		return number;
 	}
 	
-	String getTIN() {
+	public String getTIN() {
 		return TIN;
 	}
 	
-	int getSellerKey() {
+	public int getSellerKey() {
 		return seller_key;
 	}
 	

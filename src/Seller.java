@@ -10,7 +10,7 @@ class Seller extends BankSellers {
     private ArrayList<ProductSale> sales = new ArrayList<ProductSale>();
     private HashMap<String, Double> commission = new HashMap<String, Double>();
 
-    Seller(String ID, String firstName, String lastName, String TIN) {
+    public Seller(String ID, String firstName, String lastName, String TIN) {
         this.ID = ID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -19,11 +19,11 @@ class Seller extends BankSellers {
         super.insertSeller(this);
     }
     
-    void addSale(ProductSale sale) {
+    public void addSale(ProductSale sale) {
 		sales.add(sale);
 	}
     
-    void setCommission(String ID, double com) {
+    public void setCommission(String ID, double com) {
     	if(commission.containsKey(ID)) {
     		commission.replace(ID, com);
     		return;
@@ -31,23 +31,23 @@ class Seller extends BankSellers {
     	commission.put(ID, com);
     }
     
-    ArrayList<ProductSale> getSales() {
+    public ArrayList<ProductSale> getSales() {
     	return sales;
     }
 
-    String getID() {
+    public String getID() {
         return ID;
     }
     
-    String getName() {
+    public String getName() {
     	return firstName + " " + lastName;
     }
     
-    String getTIN() {
+    public String getTIN() {
     	return TIN;
     }
     
-    double getCommission(String ID) {
+    public double getCommission(String ID) {
     	if(commission.containsKey(ID)) return commission.get(ID);
     	return 0;
     }
