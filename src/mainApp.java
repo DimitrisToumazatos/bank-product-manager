@@ -241,8 +241,9 @@ public class mainApp {
 			
 			int ans = Integer.parseInt(in.nextLine());
 			
-			String sID, pID, reason;
+			String sID, pID, reason, num, pTIN;
 			int key, productKey;
+			double amount, movelim, yearlim;
 			CardTransaction ct;
 			switch(ans) {			
 				case 0:
@@ -279,8 +280,7 @@ public class mainApp {
 					}
 				
 					if (prod.equals("1")) {
-						String num, pTIN;
-						double amount, yr;
+						double yr;
 						
 						System.out.print("\nEnter Loan ID: ");
 						pID = in.nextLine();
@@ -297,8 +297,7 @@ public class mainApp {
 						bankDict.add(pID, l);
 						
 					} else if (prod.equals("2")) {
-						String num, pTIN;
-						double com, movelim, yearlim;
+						double com;
 						
 						System.out.print("\nEnter Credit Card ID: ");
 						pID = in.nextLine();
@@ -371,8 +370,7 @@ public class mainApp {
 					if (returnToMenu("Inserting Credit Card Tansaction").equals("2")) {
 						break;
 					}
-
-					double amount;
+					
 					
 					System.out.println("\n\t\t(Choose Credit Card)");
  					products.printCards();
@@ -394,16 +392,16 @@ public class mainApp {
 					System.out.print("\nEnter Amount: ");
 					amount = Double.parseDouble(in.nextLine());
 					
-					double maxLim = bankDict.getCard(pID).getMoveLimit();
-					double yearLim = bankDict.getCard(pID).getYearLimit();
+					movelim = bankDict.getCard(pID).getMoveLimit();
+					yearlim = bankDict.getCard(pID).getYearLimit();
 					double cashFlow = bankDict.getCard(pID).getCashFlow();
 					
-					while(amount > maxLim || amount + cashFlow > yearLim) {
-						if(amount > maxLim) {
-							System.out.printf("\nThe amount you entered exceeds the card's max move limit (%.2f Euro)", maxLim);
+					while(amount > movelim || amount + cashFlow > yearlim) {
+						if(amount > movelim) {
+							System.out.printf("\nThe amount you entered exceeds the card's max move limit (%.2f Euro)", movelim);
 							System.out.print("\nEnter smaller amount: ");
-						} else if(amount+cashFlow > yearLim) {
-							System.out.printf("\nThis card can only use %.2f Euro for the rest of the year.", yearLim-cashFlow);
+						} else if(amount+cashFlow > yearlim) {
+							System.out.printf("\nThis card can only use %.2f Euro for the rest of the year.", yearlim-cashFlow);
 							System.out.print("\nEnter smaller amount: ");
 						}
 						
@@ -470,14 +468,21 @@ public class mainApp {
 						break;
 					}
 					
+					boolean hasTransactions = false;
+					
 					ArrayList<ProductSale> salesOfSeller = sellers.getSeller(key).getSales();
 					for(ProductSale ps : salesOfSeller) {
 						String prodID = ps.getProductID();
 						if(bankDict.containsCard(prodID)) {
 							for(CardTransaction transaction : bankDict.getCard(prodID).getTransactions()) {
-								System.out.println(transaction);
+								hasTransactions = true;
+								System.out.println("\n" + transaction);
 							}
 						}
+					}
+					
+					if(!hasTransactions) {
+						System.out.println("\nNo Credit Card Transactions linked to this seller.");
 					}
 					break;
 				
