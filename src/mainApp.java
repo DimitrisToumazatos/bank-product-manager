@@ -45,7 +45,7 @@ public class mainApp {
 		for(ProductSale sale : seller.getSales()) {
 			String pID = sale.getProductID();
 			
-			if(!pID.equals("loans") && !pID.equals("total") && bankDict.getCard(pID) != null) {
+			if(bankDict.getCard(pID) != null) {
 				com += seller.getCommission(pID);
 				
 				System.out.println("\n[" +  bankDict.getCard(pID) + "]");
@@ -86,6 +86,50 @@ public class mainApp {
 		
 		seller.setCommission("total", com);
 		return com;
+	}
+	
+	public static void computeFinalCommission(Seller seller) {		
+		if(seller.getSales().isEmpty()) {
+			seller.setCommission("total", 0);
+			return;
+		}
+
+		double com = 0;
+		double maxLoanCom = 0;
+		
+		for(ProductSale sale : seller.getSales()) {
+			String pID = sale.getProductID();
+			
+			if(bankDict.getCard(pID) != null) {
+				com += seller.getCommission(pID);
+			}
+		}
+		
+		for(ProductSale sale : seller.getSales()) {
+			String pID = sale.getProductID();
+			if(bankDict.containsLoan(pID)) {
+				maxLoanCom += bankDict.getLoan(pID).getYearlyRate() * bankDict.getLoan(pID).getAmount();
+			}
+		}
+		
+		double loan_amount = seller.getCommission("loans");
+		double loan_com = 0;
+		
+		if(loan_amount < 500000) {
+			loan_com += loan_amount * 0.01;
+			
+		} else if (loan_amount < 2000000) {
+			loan_com += loan_amount * 0.02;
+			
+		} else {
+			loan_com += loan_amount * 0.025;
+		}
+		
+		loan_com = (loan_com <= maxLoanCom) ? loan_com : maxLoanCom;
+		
+		com += loan_com;
+		
+		seller.setCommission("total", com);
 	}
 
 	public static void main(String[] args) {
@@ -458,6 +502,7 @@ public class mainApp {
 					double total_commissions = 0;
 					
 					for(Seller seller : sellers.getSellerList()) {
+						computeFinalCommission(seller);
 						double com = seller.getCommission("total");
 						total_commissions += com;
 						System.out.print("\n-------------------\n");
