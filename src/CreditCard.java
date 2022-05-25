@@ -32,15 +32,15 @@ class CreditCard extends Product{
 		return commission;
 	}
 	
-	double getCashFlow() {
+	public double getCashFlow() {
 		return cashFlow;
 	}
 	
-	double getMoveLimit() {
+	public double getMoveLimit() {
 		return moveLimit;
 	}
 	
-	double getYearLimit() {
+	public double getYearLimit() {
 		return yearLimit;
 	}
 	

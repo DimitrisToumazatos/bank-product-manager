@@ -4,12 +4,12 @@ class BankSellers {
 	static private int key = 0;
 	static private HashMap<Integer, Seller> sellers = new HashMap<Integer, Seller>();
 	
-	void insertSeller(Seller seller) {
+	public void insertSeller(Seller seller) {
 		key++;
 		sellers.put(key, seller);
 	}
 	
-	void printSellers() {
+	public void printSellers() {
 		for(Map.Entry<Integer, Seller> Seller : sellers.entrySet()) {
 			System.out.printf("[Key: %d] | ID: %s | Name: %s | TIN: %s%n", Seller.getKey(), 
 					Seller.getValue().getID(), Seller.getValue().getName(), 
@@ -17,15 +17,15 @@ class BankSellers {
 		}
 	}
 	
-	boolean sellerExists(int key) {
+	public boolean sellerExists(int key) {
 		return sellers.containsKey(key);
 	}
 	
-	ArrayList<Seller> getSellerList() {
+	public ArrayList<Seller> getSellerList() {
     	return new ArrayList<Seller>(sellers.values());
     }
 	
-	Seller getSeller(int key) {
+	public Seller getSeller(int key) {
 		return sellers.get(key);
 	}
 
