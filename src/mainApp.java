@@ -290,7 +290,7 @@ public class mainApp {
 						pTIN = in.nextLine();
 						System.out.print("\nEnter amount: ");
 						amount = Double.parseDouble(in.nextLine());
-						System.out.print("\nEnter yearly rate: ");
+						System.out.print("\nEnter yearly rate (eg. 0.05 is 5%): ");
 						yr = Double.parseDouble(in.nextLine());
 						
 						l = new Loan(pID, num, pTIN, 0, amount, yr);
@@ -305,7 +305,7 @@ public class mainApp {
 						num = in.nextLine();
 						System.out.print("\nEnter TIN: ");
 						pTIN = in.nextLine();
-						System.out.print("\nEnter commission: ");
+						System.out.print("\nEnter commission (eg. 0.05 is 5%): ");
 						com = Double.parseDouble(in.nextLine());
 						System.out.print("\nEnter max move limit: ");
 						movelim = Double.parseDouble(in.nextLine());
