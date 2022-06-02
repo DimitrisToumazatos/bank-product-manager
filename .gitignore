@@ -42,3 +42,8 @@ bin/
 build/
 /bin1/
 java/build/**
+
+# Local Project files
+
+src.trn_list.txt
+src.sales_list.txt

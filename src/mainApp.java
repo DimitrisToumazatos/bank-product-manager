@@ -236,6 +236,7 @@ public class mainApp {
 			System.out.println("7. Show Credit Card Transactions Linked to a Seller");
 			System.out.println("8. Compute Commissions for all Sellers");
 			System.out.println("9. Show the Commission Amount of all Sellers");
+			System.out.println("10. Write Product Sales and Card Transactions to file");
 			System.out.println("0. Exit");
 			System.out.print("> ");
 			
@@ -245,8 +246,11 @@ public class mainApp {
 			int key, productKey;
 			double amount, movelim, yearlim;
 			CardTransaction ct;
+			CreateFileApp fw = null;
 			switch(ans) {			
 				case 0:
+					fw = new CreateFileApp(bankDict.getCCs(), sellers.getSellerList(), bankDict.getLoanMap());
+					fw.CreateFile();
 					done = true;
 					break;
 					
@@ -518,6 +522,10 @@ public class mainApp {
 					
 					System.out.printf("\nTotal Commissions: %.2f Euro\n", total_commissions);
 					break;
+				
+				case 10:
+					fw = new CreateFileApp(bankDict.getCCs(), sellers.getSellerList(), bankDict.getLoanMap());
+					fw.CreateFile();
 			}
 			
 			

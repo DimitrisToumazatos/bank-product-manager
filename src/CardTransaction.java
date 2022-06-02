@@ -18,6 +18,10 @@ class CardTransaction {
         return this.amount;
     }
     
+    public String getReason() {
+    	return this.reason;
+    }
+    
     public String toString() {
         return "Card ID: "+ this.cardID + "\nAmount: " + this.amount + " Euro\nReason: " + this.reason;
     }

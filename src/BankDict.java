@@ -46,6 +46,10 @@ class BankDict {
 		return (ArrayList<Double>)sellerCommissions.values();
 	}
 	
+	public HashMap<String, Loan> getLoanMap() {
+		return loans;
+	}
+	
 	public double getInterestByCard(String ID) {
 		return cards.get(ID).getCommission();
 	}
