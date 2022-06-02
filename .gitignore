@@ -45,5 +45,5 @@ java/build/**
 
 # Local Project files
 
-src.trn_list.txt
-src.sales_list.txt
+trn_list.txt
+sales_list.txt
