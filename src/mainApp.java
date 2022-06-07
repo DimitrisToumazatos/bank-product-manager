@@ -138,10 +138,12 @@ public class mainApp {
 		
 		// Reads inputs from each list from a file (located in bank-products/input/)
 		
+		System.out.print("\n-------------------\n\n");
 		fr.ReadFile("../input/product_list.txt");
 		fr.ReadFile("../input/sales_list.txt");
 		fr.ReadFile("../input/salesman_list.txt");
 		fr.ReadFile("../input/trn_list.txt");
+		System.out.print("\n-------------------\n");
 		
 		// Fetches the ArrayLists with each object inputted from file
 		
@@ -164,6 +166,7 @@ public class mainApp {
 		
 		
 		for(ProductSale sale : inputSales) { // Assigns each sale to the corresponding seller and sets the product's seller_key to the corresponding key
+			if(!sellers.sellerExists(sale.getSellerID())) continue; 
 			int seller_key = sellers.getSellerKey(sale.getSellerID());
 			String pID = sale.getProductID();
 			sellers.getSeller(seller_key).addSale(sale);
@@ -173,6 +176,7 @@ public class mainApp {
 		
 		
 		for(CardTransaction ct : inputTransactions) { // Assigns each cardtransaction to the corresponding card
+			if(!bankDict.containsCard(ct.getCardID())) continue;
 			bankDict.getCard(ct.getCardID()).addTransaction(ct);
 		}
 		
@@ -200,6 +204,7 @@ public class mainApp {
 				cc.increaseCashFlow(ct.getAmount());
 			}
 			
+			if(cc.getSellerKey() == 0) continue;			
 			sellers.getSeller(cc.getSellerKey()).setCommission(cc.getID(), transactionCommission);
 		}		
 		

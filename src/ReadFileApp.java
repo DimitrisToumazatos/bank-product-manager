@@ -32,18 +32,56 @@ class ReadFileApp {
 			// Stack with "{" and "}" to check when an input block "{...}" ends
 			Stack<String> checkBraces = new Stack<String>();
 			
+			int linenum, linecount;
+			linenum = linecount = 1;
 			switch (line) {
-			case "BANKITEM_LIST":
+			case "BANKITEM_LIST":	
 				while((line = reader.readLine() ) != null) {
+					linecount++;
 					line = line.trim();
 					
-					if(line.equals("{")) checkBraces.push(line);
+					
+					// If there is a type other than BANKITEM in the file it skips lines until its over
+					if(!line.contains(" ") && !line.toUpperCase().equals("BANKITEM") && !line.equals("{") && !line.equals("}")) {
+						System.out.println("\nNon BANKITEM type entry found. Ignoring it...");
+						while((line = reader.readLine()) != null && !line.trim().equals("}")) {
+							linecount++;
+						}
+						linecount++;
+					}
+					
+					
+					if(line.toUpperCase().equals("BANKITEM")) {
+						linenum = linecount;
+					}
+					
+					if(line.equals("{")) {
+						checkBraces.push(line);
+						
+						// Initialize default values
+						
+						item.put("AFM", "123456789");
+						item.put("AMOUNT", "5000");
+						item.put("YRATE", "0.05");
+						item.put("COM", "0.1");
+						item.put("LIM", "5000");
+						item.put("YLIM", "50000");
+					}
 					
 					// If stack has a size of 1, it only contains
 					// the "{" at the beginning of the file
 					// so at that point we are at the end of the file
 					// (last "}" character)
 					else if(line.equals("}") && checkBraces.size() > 1) {
+						
+						if(!item.containsKey("DESCR") || !item.containsKey("CODE") || !item.containsKey("TYPE")) {
+							System.out.println("\nBANKITEM at line " + linenum + " missing one or more required fields\n");
+							item.clear();
+							checkBraces.pop();
+							continue;
+						}
+						
+						
 						checkBraces.pop();
 						ID = item.get("CODE");
 						num = item.get("DESCR");
@@ -66,18 +104,47 @@ class ReadFileApp {
 						String[] splited;
 						if(line.contains("\"")) splited = line.split(" \"");
 						else splited = line.split("\\s+");
-						item.put(splited[0], splited[1]);
+						item.put(splited[0].toUpperCase(), splited[1]);
 					}
 				}
 				break;
 				
 			case "SALES_LIST":
 				while((line = reader.readLine() ) != null) {
+					linecount++;
 					line = line.trim();
 					
-					if(line.equals("{")) checkBraces.push(line);
+					
+					// If there is a type other than SALE in the file it skips lines until its over
+					if(!line.contains(" ") && !line.toUpperCase().equals("SALE") && !line.equals("{") && !line.equals("}")) {
+						System.out.println("\nNon SALE type entry found. Ignoring it...");
+						while((line = reader.readLine()) != null && !line.trim().equals("}")) {
+							linecount++;
+						}
+						linecount++;
+					}
+					
+					
+					if(line.toUpperCase().equals("SALE")) linenum = linecount;
+					
+					if(line.equals("{")) {
+						checkBraces.push(line);
+						
+						// Initialize default values
+						
+						item.put("REASON", "No reason given");
+					}
 					
 					else if(line.equals("}") && checkBraces.size() > 1) {
+						
+						if(!item.containsKey("SALESMAN_CODE") || !item.containsKey("BANKITEM_CODE") || !item.containsKey("BANKITEM_TYPE")) {
+							System.out.println("\nSALE at line " + linenum + " missing one or more required fields\n");
+							item.clear();
+							checkBraces.pop();
+							continue;
+						}
+						
+						
 						checkBraces.pop();
 						sID = item.get("SALESMAN_CODE");
 						ID = item.get("BANKITEM_CODE");
@@ -90,7 +157,7 @@ class ReadFileApp {
 						String[] splited;
 						if(line.contains("\"")) splited = line.split(" \"");
 						else splited = line.split("\\s+");
-						item.put(splited[0], splited[1]);
+						item.put(splited[0].toUpperCase(), splited[1]);
 					}
 				}
 				break;
@@ -98,11 +165,40 @@ class ReadFileApp {
 				
 			case "SALESMAN_LIST":
 				while((line = reader.readLine() ) != null) {
+					linecount++;
 					line = line.trim();
 					
-					if(line.equals("{")) checkBraces.push(line);
+					
+					// If there is a type other than SALESMAN in the file it skips lines until its over
+					if(!line.contains(" ") && !line.toUpperCase().equals("SALESMAN") && !line.equals("{") && !line.equals("}")) {
+						System.out.println("\nNon SALESMAN type entry found. Ignoring it...");
+						while((line = reader.readLine()) != null && !line.trim().equals("}")) {
+							linecount++;
+						}
+						linecount++;
+					}
+					
+					
+					if(line.toUpperCase().equals("SALESMAN")) linenum = linecount;
+					
+					if(line.equals("{")) {
+						checkBraces.push(line);
+						
+						// Initialize default values
+						
+						item.put("AFM", "123456789");
+					}
 					
 					else if(line.equals("}") && checkBraces.size() > 1) {
+						
+						if(!item.containsKey("CODE") || !item.containsKey("SURNAME") || !item.containsKey("FIRSTNAME")) {
+							System.out.println("\nSALESMAN at line " + linenum + " missing one or more required fields\n");
+							item.clear();
+							checkBraces.pop();
+							continue;
+						}
+						
+						
 						checkBraces.pop();
 						ID = item.get("CODE");
 						ln = item.get("SURNAME");
@@ -120,18 +216,47 @@ class ReadFileApp {
 						String[] splited;
 						if(line.contains("\"")) splited = line.split(" \"");
 						else splited = line.split("\\s+");
-						item.put(splited[0], splited[1]);
+						item.put(splited[0].toUpperCase(), splited[1]);
 					}
 				}
 				break;
 				
 			case "TRN_LIST":
 				while((line = reader.readLine() ) != null) {
+					linecount++;
 					line = line.trim();
 					
-					if(line.equals("{")) checkBraces.push(line);
 					
-					else if(line.equals("}") && checkBraces.size() > 1) {				
+					// If there is a type other than TRN in the file it skips lines until its over
+					if(!line.contains(" ") && !line.toUpperCase().equals("TRN") && !line.equals("{") && !line.equals("}")) {
+						System.out.println("\nNon TRN type entry found. Ignoring it...");
+						while((line = reader.readLine()) != null && !line.trim().equals("}")) {
+							linecount++;
+						}
+						linecount++;
+					}
+					
+					
+					if(line.toUpperCase().equals("TRN")) linenum = linecount;
+					
+					if(line.equals("{")) {
+						checkBraces.push(line);
+						
+						// Initialize default values
+						
+						item.put("JUSTIFICATION", "No justification given");
+					}
+					
+					else if(line.equals("}") && checkBraces.size() > 1) {
+						
+						if(!item.containsKey("BANKITEM_CODE") || !item.containsKey("VAL")) {
+							System.out.println("\nTRN at line " + linenum + " missing one or more required fields\n");
+							item.clear();
+							checkBraces.pop();
+							continue;
+						}
+						
+						
 						checkBraces.pop();
 						ID = item.get("BANKITEM_CODE");
 						amount = Double.parseDouble(item.get("VAL"));
@@ -146,7 +271,7 @@ class ReadFileApp {
 						String[] splited;
 						if(line.contains("\"")) splited = line.split(" \"");
 						else splited = line.split("\\s+");
-						item.put(splited[0], splited[1]);
+						item.put(splited[0].toUpperCase(), splited[1]);
 					}
 				}
 				break;

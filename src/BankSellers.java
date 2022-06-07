@@ -23,6 +23,10 @@ class BankSellers {
 		return sellers.containsKey(key);
 	}
 	
+	public boolean sellerExists(String sID) {
+		return sellerKeys.containsKey(sID);
+	}
+	
 	public ArrayList<Seller> getSellerList() {
     	return new ArrayList<Seller>(sellers.values());
     }
