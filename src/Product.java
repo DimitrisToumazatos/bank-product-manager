@@ -11,6 +11,14 @@ class Product extends BankProducts {
 		this.seller_key = seller_key;
 		super.insertProduct(this);
 	}
+	
+	public Product(String ID, String number, String TIN, int seller_key, boolean fromRead) {
+		this.ID = ID;
+		this.number = number;
+		this.TIN = TIN;
+		this.seller_key = seller_key;
+		if(!fromRead) super.insertProduct(this);
+	}
 
 	public void setSeller(int key) {
 		seller_key = key;

@@ -18,23 +18,25 @@ class CreateFileApp {
 		
 		try {
 			writer = new BufferedWriter(new FileWriter(new File("trn_list.txt")));
-			writer.write("TRN_LIST\n\n{\n");
+			writer.write("TRN_LIST\n{\n");
 			for(CreditCard card : cards) {
 				for(CardTransaction trn : card.getTransactions()) {
 					writer.write(String.format("  TRN\n  {\n    BANKITEM_CODE %s\n    VAL %.2f\n    JUSTIFICATION \"%s\"\n  }\n", card.getID(), trn.getAmount(), trn.getReason()));
 				}
 			}
+		    writer.write("}");
 			writer.close();
 			
 			System.out.println("[Writing product sale list to file sales_list.txt ...]");
 			writer = new BufferedWriter(new FileWriter(new File("sales_list.txt")));
-			writer.write("SALES_LIST\n\n{\n");
+			writer.write("SALES_LIST\n{\n");
 			for(Seller seller : sellers) {
 				for(ProductSale sale : seller.getSales()) {
 					String type = (loans.containsKey(sale.getProductID())) ? "Loan" : "Card";
-					writer.write(String.format("  SALE\n  {\n    SALESMAN_CODE %s\n    BANKITEM_TYPE %s\n    BANKITEM_CODE %s\n  }\n", sale.getSellerID(), type, sale.getProductID()));
+					writer.write(String.format("  SALE\n  {\n    SALESMAN_CODE %s\n    BANKITEM_TYPE %s\n    BANKITEM_CODE %s\n    REASON \"%s\"\n  }\n", sale.getSellerID(), type, sale.getProductID(), sale.getReason()));
 				}
 			}
+			writer.write("}");
 			writer.close();
 		} catch (IOException e){
 			System.out.println("Error writing file...");			

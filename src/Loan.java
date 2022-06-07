@@ -8,6 +8,12 @@ class Loan extends Product {
 		this.yearlyRate = yearlyRate;
 	}
 	
+	public Loan(String ID, String number, String TIN, int seller_key, double amount, double yearlyRate, boolean fromRead) {
+		super(ID, number, TIN, seller_key, fromRead);
+		this.amount = amount;
+		this.yearlyRate = yearlyRate;
+	}
+	
 	public double getAmount() {
 		return amount;
 	}

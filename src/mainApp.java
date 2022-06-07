@@ -16,6 +16,8 @@ public class mainApp {
 	static BankProducts products = new BankProducts();
 	static Scanner in = new Scanner(System.in);
 	
+	static ReadFileApp fr = new ReadFileApp();
+	
 	public static String returnToMenu(String action) {
 		String cont = "";
 		System.out.print("\n" + action + "... Proceed? (Yes: 1/No: 2)\n> ");
@@ -133,79 +135,59 @@ public class mainApp {
 	}
 
 	public static void main(String[] args) {
-		new Seller("014", "Aleksandar 'Sasha'", "Vezenkov", "581510137");
-		new Seller("002", "Tyler", "Dorsey", "232105129");
-		new Seller("011", "Kostas", "Sloukas", "264908119");
-		new Seller("077", "Shaquille", "McKissic", "191508067");
-		new Seller("015", "Giorgos", "Printezis", "130301037");
 		
-		Loan l = new Loan("L1", "01", "998751013", 1, 250000.0, 0.03);
-		bankDict.add("L1", l);
-		sellers.getSeller(1).setCommission("loans", l.getAmount());
+		// Reads inputs from each list from a file (located in bank-products/input/)
 		
-		l = new Loan("L2", "02", "211103214", 4, 20.5, 0.09);
-		bankDict.add("L2", l);
-		sellers.getSeller(4).setCommission("loans", l.getAmount());
+		fr.ReadFile("../input/product_list.txt");
+		fr.ReadFile("../input/sales_list.txt");
+		fr.ReadFile("../input/salesman_list.txt");
+		fr.ReadFile("../input/trn_list.txt");
 		
-		l = new Loan("L3", "03", "120803199", 3, 49.99, 0.07);
-		bankDict.add("L3", l);
-		sellers.getSeller(3).setCommission("loans", l.getAmount());
+		// Fetches the ArrayLists with each object inputted from file
 		
-		l = new Loan("L4", "04", "140203154", 0, 9.0, 0.43);
-		bankDict.add("L4", l);
+		ArrayList<Product> inputProducts = fr.getProducts();
+		ArrayList<ProductSale> inputSales = fr.getSales();
+		ArrayList<Seller> inputSellers = fr.getSellers();
+		ArrayList<CardTransaction> inputTransactions = fr.getTransactions();
 		
-		CreditCard card = new CreditCard("C1", "05", "03163589", 5, 0.005, 2000.0, 100000.0);
-		bankDict.add("C1", card);
 		
-		card = new CreditCard("C2", "06", "90367834", 3, 0.007, 5000.0, 200000.0);
-		bankDict.add("C2", card);
+		for(Seller seller : inputSellers) { // Assigns seller key
+			sellers.insertSeller(seller);
+		}
 		
-		card = new CreditCard("C3", "07", "98964824", 2, 0.009, 10000.0, 500000.0);
-		bankDict.add("C3", card);
 		
-		ProductSale aps = new ProductSale("014", "L1", "Reconstruction of Monaco BC home stadium.");
-		ProductSale bps = new ProductSale("077", "L2", "Mandatory repairs for damages in OAKA."); 
-		ProductSale cps = new ProductSale("011", "L3", "Purchase of chocolate.");
-		ProductSale dps = new ProductSale("015", "C1", "Netflix account instead of communication with teammates.");
-		ProductSale eps = new ProductSale("011", "C2", "Baby expenses.");
-		ProductSale fps = new ProductSale("002", "C3", "Caffeine products, must wake up.");
+		for (Product product : inputProducts) { // Assigns product key and adds product to corresponding hashmap (loan or creditcard)
+			products.insertProduct(product);
+			if(product instanceof Loan) bankDict.add(product.getID(), (Loan) product);
+			else bankDict.add(product.getID(), (CreditCard) product);
+		}
 		
-		sellers.getSeller(1).addSale(aps);
-		sellers.getSeller(4).addSale(bps);
-		sellers.getSeller(3).addSale(cps);
-		sellers.getSeller(5).addSale(dps);
-		sellers.getSeller(3).addSale(eps);
-		sellers.getSeller(2).addSale(fps);
 		
-		CardTransaction a = new CardTransaction("C1", 500.0, "5-year netflix plan");
-		CardTransaction b = new CardTransaction("C1", 25.0, "Movie bill");
-		CardTransaction c = new CardTransaction("C1", 10.0, "TV Show bill");
-		CardTransaction d = new CardTransaction("C1", 7.50, "Movie ticket");
+		for(ProductSale sale : inputSales) { // Assigns each sale to the corresponding seller and sets the product's seller_key to the corresponding key
+			int seller_key = sellers.getSellerKey(sale.getSellerID());
+			String pID = sale.getProductID();
+			sellers.getSeller(seller_key).addSale(sale);
+			if(bankDict.containsLoan(pID)) bankDict.getLoan(pID).setSeller(seller_key);
+			else bankDict.getCard(pID).setSeller(seller_key);
+		}
 		
-		bankDict.getCard("C1").addTransaction(a);
-		bankDict.getCard("C1").addTransaction(b);
-		bankDict.getCard("C1").addTransaction(c);
-		bankDict.getCard("C1").addTransaction(d);
 		
-		CardTransaction a2 = new CardTransaction("C2", 100.0, "Diapers");
-		CardTransaction b2 = new CardTransaction("C2", 200.0, "Baby swing");
-		CardTransaction c2 = new CardTransaction("C2", 30.0, "Tricycle");
-		CardTransaction d2 = new CardTransaction("C2", 5.0, "Pacifier");
+		for(CardTransaction ct : inputTransactions) { // Assigns each cardtransaction to the corresponding card
+			bankDict.getCard(ct.getCardID()).addTransaction(ct);
+		}
 		
-		bankDict.getCard("C2").addTransaction(a2);
-		bankDict.getCard("C2").addTransaction(b2);
-		bankDict.getCard("C2").addTransaction(c2);
-		bankDict.getCard("C2").addTransaction(d2);
 		
-		CardTransaction a3 = new CardTransaction("C3", 20.0, "Aeropress");
-		CardTransaction b3 = new CardTransaction("C3", 8.00, "Coffee beans");
-		CardTransaction c3 = new CardTransaction("C3", 200.0, "Espresso machine");
-		CardTransaction d3 = new CardTransaction("C3", 9.99, "Caffeine gums");
+		/* Initializes loan amount for all sellers at the start of the program */
 		
-		bankDict.getCard("C3").addTransaction(a3);
-		bankDict.getCard("C3").addTransaction(b3);
-		bankDict.getCard("C3").addTransaction(c3);
-		bankDict.getCard("C3").addTransaction(d3);
+		for(Seller seller : sellers.getSellerList()) {
+			double loanAmount = 0;
+			for(ProductSale sale : seller.getSales()) {
+				if(bankDict.containsLoan(sale.getProductID())) {
+					loanAmount += bankDict.getLoanAmount(sale.getProductID());
+				}
+			}
+			seller.setCommission("loans", loanAmount);
+		}
 		
 		
 		/* Initializes the commissions and cash flow for all the above card transactions */
@@ -219,8 +201,7 @@ public class mainApp {
 			}
 			
 			sellers.getSeller(cc.getSellerKey()).setCommission(cc.getID(), transactionCommission);
-		}
-		
+		}		
 		
 		
 		Boolean done = false;
@@ -297,7 +278,7 @@ public class mainApp {
 						System.out.print("\nEnter yearly rate (eg. 0.05 is 5%): ");
 						yr = Double.parseDouble(in.nextLine());
 						
-						l = new Loan(pID, num, pTIN, 0, amount, yr);
+						Loan l = new Loan(pID, num, pTIN, 0, amount, yr);
 						bankDict.add(pID, l);
 						
 					} else if (prod.equals("2")) {

@@ -17,6 +17,10 @@ class ProductSale {
         return productID;
     }
     
+    public String getReason() {
+    	return reason;
+    }
+    
     public String toString() {
     	return "Seller ID: " + sellerID + " | Product ID: " + productID + " | " + "Reason: " + reason;
     }

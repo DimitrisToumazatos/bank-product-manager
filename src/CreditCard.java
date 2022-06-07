@@ -16,6 +16,15 @@ class CreditCard extends Product{
 		this.transactions = new ArrayList<CardTransaction>();
 	}
 	
+	public CreditCard(String ID, String number, String TIN, int seller_key, double commission, double moveLimit, double yearLimit, boolean fromRead) {
+		super(ID, number, TIN, seller_key, fromRead);
+		this.commission = commission;
+		this.moveLimit = moveLimit;
+		this.yearLimit = yearLimit;
+		this.cashFlow = 0;
+		this.transactions = new ArrayList<CardTransaction>();
+	}
+	
 	public void addTransaction(CardTransaction ct) {
 		transactions.add(ct);
 	}

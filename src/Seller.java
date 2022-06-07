@@ -19,6 +19,15 @@ class Seller extends BankSellers {
         super.insertSeller(this);
     }
     
+    public Seller(String ID, String firstName, String lastName, String TIN, boolean fromRead) {
+        this.ID = ID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.TIN = TIN;
+        this.commission.put("total", 0.0);
+        if(!fromRead) super.insertSeller(this);
+    }
+    
     public void addSale(ProductSale sale) {
 		sales.add(sale);
 	}
@@ -53,6 +62,6 @@ class Seller extends BankSellers {
     }
     
     public String toString() {
-        return "ID Number: " + this.ID + "\nLast Name: " + this.lastName + "\nFirst Name: " + this.firstName + "\nTIN: " + this.TIN;
+        return "Key: " + this.getSellerKey(this.ID) + "\nID Number: " + this.ID + "\nLast Name: " + this.lastName + "\nFirst Name: " + this.firstName + "\nTIN: " + this.TIN;
     }
 }

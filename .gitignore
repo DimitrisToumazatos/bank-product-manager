@@ -45,5 +45,5 @@ java/build/**
 
 # Local Project files
 
-trn_list.txt
-sales_list.txt
+input/
+*.txt
