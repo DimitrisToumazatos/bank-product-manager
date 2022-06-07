@@ -42,8 +42,3 @@ bin/
 build/
 /bin1/
 java/build/**
-
-# Local Project files
-
-input/
-*.txt

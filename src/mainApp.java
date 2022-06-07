@@ -139,10 +139,10 @@ public class mainApp {
 		// Reads inputs from each list from a file (located in bank-products/input/)
 		
 		System.out.print("\n-------------------\n\n");
-		fr.ReadFile("../input/product_list.txt");
-		fr.ReadFile("../input/sales_list.txt");
-		fr.ReadFile("../input/salesman_list.txt");
-		fr.ReadFile("../input/trn_list.txt");
+		fr.ReadFile("product_list.txt");
+		fr.ReadFile("sales_list.txt");
+		fr.ReadFile("salesman_list.txt");
+		fr.ReadFile("trn_list.txt");
 		System.out.print("\n-------------------\n");
 		
 		// Fetches the ArrayLists with each object inputted from file
@@ -166,7 +166,7 @@ public class mainApp {
 		
 		
 		for(ProductSale sale : inputSales) { // Assigns each sale to the corresponding seller and sets the product's seller_key to the corresponding key
-			if(!sellers.sellerExists(sale.getSellerID())) continue; 
+			if(!sellers.sellerExists(sale.getSellerID()) || !products.productExists(sale.getProductID())) continue;
 			int seller_key = sellers.getSellerKey(sale.getSellerID());
 			String pID = sale.getProductID();
 			sellers.getSeller(seller_key).addSale(sale);
@@ -226,7 +226,7 @@ public class mainApp {
 			System.out.println("0. Exit");
 			System.out.print("> ");
 			
-			int ans = Integer.parseInt(in.nextLine());
+			String ans = in.nextLine();
 			
 			String sID, pID, reason, num, pTIN;
 			int key, productKey;
@@ -234,13 +234,13 @@ public class mainApp {
 			CardTransaction ct;
 			CreateFileApp fw = null;
 			switch(ans) {			
-				case 0:
+				case "0":
 					fw = new CreateFileApp(bankDict.getCCs(), sellers.getSellerList(), bankDict.getLoanMap());
 					fw.CreateFile();
 					done = true;
 					break;
 					
-				case 1:
+				case "1":
 					if (returnToMenu("Inserting Seller").equals("2")) {
 						break;
 					}
@@ -258,7 +258,7 @@ public class mainApp {
 					new Seller(sID, fn, ln, TIN);
 					break;
 				
-				case 2:										
+				case "2":										
 					if (returnToMenu("Inserting Bank Product").equals("2")) {
 						break;
 					}
@@ -305,7 +305,7 @@ public class mainApp {
 					}
 					break;
 				
-				case 3:
+				case "3":
 					if (returnToMenu("Inserting Product Sale").equals("2")) {
 						break;
 					}
@@ -356,7 +356,7 @@ public class mainApp {
 					
 					break;
 				
-				case 4:
+				case "4":
 					if (returnToMenu("Inserting Credit Card Tansaction").equals("2")) {
 						break;
 					}
@@ -411,7 +411,7 @@ public class mainApp {
 					bankDict.getCard(pID).addTransaction(ct);
 					break;
 					
-				case 5:
+				case "5":
 					if (returnToMenu("Showing Loans").equals("2")) {
 						break;
 					}
@@ -424,7 +424,7 @@ public class mainApp {
 					System.out.print("\n-------------------\n");
 					break;
 				
-				case 6:
+				case "6":
 					if (returnToMenu("Computing a Seller's Commission").equals("2")) {
 						break;
 					}
@@ -445,7 +445,7 @@ public class mainApp {
 					System.out.print("\n-------------------\n");
 					break;
 				
-				case 7:
+				case "7":
 					if (returnToMenu("Showing Seller-Linked Credit Card Transactions").equals("2")) {
 						break;
 					}
@@ -476,7 +476,7 @@ public class mainApp {
 					}
 					break;
 				
-				case 8:
+				case "8":
 					if (returnToMenu("Computing Commission for all Sellers").equals("2")) {
 						break;
 					}
@@ -489,7 +489,7 @@ public class mainApp {
 					System.out.print("\n-------------------\n");
 					break;
 					
-				case 9:
+				case "9":
 					if (returnToMenu("Showing the Commission Amount of all Sellers").equals("2")) {
 						break;
 					}
@@ -509,7 +509,7 @@ public class mainApp {
 					System.out.printf("\nTotal Commissions: %.2f Euro\n", total_commissions);
 					break;
 				
-				case 10:
+				case "10":
 					fw = new CreateFileApp(bankDict.getCCs(), sellers.getSellerList(), bankDict.getLoanMap());
 					fw.CreateFile();
 			}

@@ -42,7 +42,7 @@ class ReadFileApp {
 					
 					
 					// If there is a type other than BANKITEM in the file it skips lines until its over
-					if(!line.contains(" ") && !line.toUpperCase().equals("BANKITEM") && !line.equals("{") && !line.equals("}")) {
+					if(checkBraces.size() == 1 && !line.equals("BANKITEM") && !line.equals("{") && !line.equals("}")) {
 						System.out.println("\nNon BANKITEM type entry found. Ignoring it...");
 						while((line = reader.readLine()) != null && !line.trim().equals("}")) {
 							linecount++;
@@ -88,7 +88,7 @@ class ReadFileApp {
 						num = (num != null) ? num.substring(0, num.length()-1) : num; // Removes quotes at the end
 						TIN = item.get("AFM");
 						
-						if(item.get("TYPE").equals("Loan")) {
+						if(item.get("TYPE").equalsIgnoreCase("Loan")) {
 							amount = Double.parseDouble(item.get("AMOUNT"));
 							yr = Double.parseDouble(item.get("YRATE"));
 							products.add(new Loan(ID, num, TIN, 0, amount, yr, true));
@@ -116,7 +116,7 @@ class ReadFileApp {
 					
 					
 					// If there is a type other than SALE in the file it skips lines until its over
-					if(!line.contains(" ") && !line.toUpperCase().equals("SALE") && !line.equals("{") && !line.equals("}")) {
+					if(checkBraces.size() == 1 && !line.equals("SALE") && !line.equals("{") && !line.equals("}")) {
 						System.out.println("\nNon SALE type entry found. Ignoring it...");
 						while((line = reader.readLine()) != null && !line.trim().equals("}")) {
 							linecount++;
@@ -170,7 +170,7 @@ class ReadFileApp {
 					
 					
 					// If there is a type other than SALESMAN in the file it skips lines until its over
-					if(!line.contains(" ") && !line.toUpperCase().equals("SALESMAN") && !line.equals("{") && !line.equals("}")) {
+					if(checkBraces.size() == 1 && !line.equals("SALESMAN") && !line.equals("{") && !line.equals("}")) {
 						System.out.println("\nNon SALESMAN type entry found. Ignoring it...");
 						while((line = reader.readLine()) != null && !line.trim().equals("}")) {
 							linecount++;
@@ -228,7 +228,7 @@ class ReadFileApp {
 					
 					
 					// If there is a type other than TRN in the file it skips lines until its over
-					if(!line.contains(" ") && !line.toUpperCase().equals("TRN") && !line.equals("{") && !line.equals("}")) {
+					if(checkBraces.size() == 1 && !line.equals("TRN") && !line.equals("{") && !line.equals("}")) {
 						System.out.println("\nNon TRN type entry found. Ignoring it...");
 						while((line = reader.readLine()) != null && !line.trim().equals("}")) {
 							linecount++;

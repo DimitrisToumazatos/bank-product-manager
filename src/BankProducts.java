@@ -4,10 +4,12 @@ import java.util.Map;
 class BankProducts {
 	static private int key = 0;
 	static private HashMap<Integer, Product> products = new HashMap<Integer, Product>();
+	static private HashMap<String, Integer> productKeys = new HashMap<String, Integer>();
 	
 	public void insertProduct(Product product) {
 		key++;
 		products.put(key, product);
+		productKeys.put(product.getID(), key);
 	}
 	
 	public boolean printProducts() {
@@ -31,6 +33,10 @@ class BankProducts {
 	
 	public boolean productExists(int key) {
 		return products.containsKey(key);
+	}
+	
+	public boolean productExists(String ID) {
+		return productKeys.containsKey(ID);
 	}
 	
 	public Product getProduct(int key) {
